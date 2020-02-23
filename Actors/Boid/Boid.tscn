@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Actors/Boid/sprites/Chick_Down.png" type="Texture" id=1]
+[ext_resource path="res://Actors/Boid/Boid.gd" type="Script" id=2]
+
+[node name="Boid" type="Node2D" groups=[
+"prey",
+]]
+script = ExtResource( 2 )
+avoid_distance = 30.0
+
+[node name="Chicken" type="Sprite" parent="."]
+position = Vector2( 0.0284538, -0.238901 )
+scale = Vector2( 0.251141, 0.251711 )
+texture = ExtResource( 1 )
