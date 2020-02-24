@@ -8,14 +8,10 @@ export var separation_force: = 0.05
 export(float) var view_distance: = 50.0
 export(float) var avoid_distance: = 20.0
 
-
-var _width = ProjectSettings.get_setting("display/window/size/width")
-var _height = ProjectSettings.get_setting("display/window/size/height")
-
 onready var screen_size = get_viewport_rect().size
 
-var _flock: = [] setget set_flock, get_flock
- 
+var _prev_point = null
+
 var _mouse_target: Vector2
 var _velocity: Vector2
 
@@ -39,7 +35,8 @@ func _input(event):
 func _physics_process(delta):
 	
 	if _accel_struct != null:
-		var flock = _accel_struct.get_bodies(self)
+		var scaled_point = _accel_struct.scale_point(position)
+		var flock = _accel_struct.get_bodies(self, scaled_point)
 		
 		var mouse_vector = Vector2.ZERO
 		if _mouse_target != Vector2.INF:
@@ -59,7 +56,7 @@ func _physics_process(delta):
 		
 		translate(_velocity * delta)
 		wrap_screen()
-		_accel_struct.update_body(self)
+		_prev_point = _accel_struct.update_body(self, scaled_point, _prev_point)
 
 
 func get_flock_status(flock: Array):
@@ -95,17 +92,9 @@ func get_flock_status(flock: Array):
 
 func get_random_target():
 	randomize()
-	return Vector2(rand_range(0, _width), rand_range(0, _height))
+	return Vector2(rand_range(0, screen_size.x), rand_range(0, screen_size.y))
 
 
 func wrap_screen():
 	position.x = wrapf(position.x, 0, screen_size.x)
 	position.y = wrapf(position.y, 0, screen_size.y)
-
-
-func set_flock(flock: Array) -> void:
-	_flock = flock
-
-
-func get_flock() -> Array:
-	return _flock

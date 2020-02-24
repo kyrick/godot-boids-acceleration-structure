@@ -8,7 +8,6 @@ export(int) var struct_scale = 10
 
 var _width = ProjectSettings.get_setting("display/window/size/width")
 var _height = ProjectSettings.get_setting("display/window/size/height")
-var _boids: Array
 var _accel_struct: AccelStruct
 
 func _ready():
@@ -18,11 +17,13 @@ func _ready():
 	for _i in range(boids):
 		randomize()
 		var boid = Boid.instance()
+		var init_pos: = Vector2(rand_range(0, _width), rand_range(0, _height))
+		boid.position = init_pos
+		var scaled = _accel_struct.scale_point(init_pos)
+		boid._prev_point = scaled
+		_accel_struct.add_body(boid, scaled)
 		boid._accel_struct = _accel_struct
-		boid.position = Vector2(rand_range(0, _width), rand_range(0, _height))
 		add_child(boid)
-		_boids.append(boid)
-		_accel_struct.add_body(boid)
 
 
 #func _physics_process(_delta):
