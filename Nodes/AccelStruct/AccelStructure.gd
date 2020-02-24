@@ -33,29 +33,12 @@ func scale_point(vector: Vector2) -> Vector2:
 	return(vector / _scale).floor()
 
 
-func _get_body_position(body: Node2D) -> Vector2:
-	return body.position
-
-
 func add_body(body: Node2D, scaled_point: Vector2) -> void:
-	
-	if scaled_point.x < x_min:
-		scaled_point.x = x_min
-	elif scaled_point.x > x_max:
-		scaled_point.x = x_max
-	
-	if scaled_point.y < y_min:
-		scaled_point.y = y_min
-	elif scaled_point.y > y_max:
-		scaled_point.y = y_max
-	
 	_cells[scaled_point.x][scaled_point.y].append(body)
 
 
 func remove_body(body: Node2D, scaled_point: Vector2) -> void:
 	var loc: int = _cells[scaled_point.x][scaled_point.y].find(body)
-	if loc == -1:
-		print("shit")
 	_cells[scaled_point.x][scaled_point.y].remove(loc)
 
 
@@ -70,20 +53,8 @@ func update_body(body: Node2D, scaled_point: Vector2, prev_point: Vector2) -> Ve
 
 
 func get_bodies(body: Node2D, scaled_point: Vector2):
-	var center: = _get_body_position(body)
-
 	var x = scaled_point.x
 	var y = scaled_point.y
-	
-	if x < x_min:
-		x = x_min
-	elif x > x_max:
-		x = x_max
-
-	if y < y_min:
-		y = y_min
-	elif y > y_max:
-		y = y_max
 	
 	var bodies = _cells[x][y]
 	if x - 1 >= x_min:

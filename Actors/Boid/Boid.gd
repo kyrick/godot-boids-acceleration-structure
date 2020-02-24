@@ -68,23 +68,23 @@ func get_flock_status(flock: Array):
 	
 	for f in flock:
 		if f != self:
-			var neighbor_pos: Vector2 = f.global_position
+			var neighbor_pos: Vector2 = f.position
 	
-			if global_position.distance_to(neighbor_pos) < view_distance:
+			if position.distance_to(neighbor_pos) < view_distance:
 				flock_size += 1
 				align_vector += f._velocity
 				flock_center += neighbor_pos
 		
-				var d = global_position.distance_to(neighbor_pos)
+				var d = position.distance_to(neighbor_pos)
 				if d != 0 and d < avoid_distance:
-					avoid_vector -= (neighbor_pos - global_position).normalized() * (avoid_distance / d * max_speed)
-	
+					avoid_vector -= (neighbor_pos - position).normalized() * (avoid_distance / d * max_speed)
+
 	if flock_size:
 		align_vector /= flock_size
 		flock_center /= flock_size
 
-		var center_dir = global_position.direction_to(flock_center)
-		var center_speed = max_speed * (global_position.distance_to(flock_center) / view_distance)
+		var center_dir = position.direction_to(flock_center)
+		var center_speed = max_speed * (position.distance_to(flock_center) / view_distance)
 		center_vector = center_dir * center_speed
 
 	return [center_vector, align_vector, avoid_vector]
