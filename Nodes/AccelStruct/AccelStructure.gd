@@ -57,6 +57,7 @@ func get_bodies(body: Node2D, scaled_point: Vector2):
 	var y = scaled_point.y
 	
 	var bodies = _cells[x][y]
+	
 	if x - 1 >= x_min:
 		bodies += _cells[x - 1][y]
 	if x + 1 <= x_max:

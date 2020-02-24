@@ -65,7 +65,7 @@ func get_flock_status(flock: Array):
 	var align_vector: = Vector2()
 	var avoid_vector: = Vector2()
 	var flock_size: = 0
-	
+
 	for f in flock:
 		if f != self:
 			var neighbor_pos: Vector2 = f.position
