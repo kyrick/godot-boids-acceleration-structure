@@ -7,9 +7,15 @@
 "prey",
 ]]
 script = ExtResource( 2 )
-avoid_distance = 30.0
+max_speed = 50.0
+mouse_follow_force = 0.01
+cohesion_force = 0.5
+algin_force = 0.5
+separation_force = 0.5
+view_distance = 60.0
+avoid_distance = 10.0
 
 [node name="Chicken" type="Sprite" parent="."]
 position = Vector2( 0.0284538, -0.238901 )
-scale = Vector2( 0.251141, 0.251711 )
+scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 1 )

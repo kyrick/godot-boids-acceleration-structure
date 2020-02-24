@@ -7,8 +7,9 @@
 
 [node name="RandomChickens" type="Node2D"]
 script = ExtResource( 4 )
-boids = 3
+boids = 800
 Boid = ExtResource( 2 )
+struct_scale = 15
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )

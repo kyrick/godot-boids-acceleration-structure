@@ -1,79 +1,95 @@
 extends Node
 
+var _cells: Array
+var _scale: int
+var _map: Dictionary = {}
 
-class Point2:
+var x_min: int
+var x_max: int
+var y_min: int
+var y_max: int
+
+func _init(bounds: Rect2, scale: int):
+	_scale = scale
+
+	x_min = _scale_axis(bounds.position.x)
+	x_max = _scale_axis(bounds.end.x)
+	y_min = _scale_axis(bounds.position.y)
+	y_max = _scale_axis(bounds.end.y)
 	
-	var x: int
-	var y: int
+	_cells = range(x_min, x_max + 1)
 	
-	func _init(inst_x: int, inst_y: int):
-		self.x = inst_x
-		self.y = inst_y
+	for x in range(_cells.size()):
+		_cells[x] = range(y_min, y_max + 1)
+		for y in _cells[x].size():
+			_cells[x][y] = []
 
 
-class AccelStruct:
+func _scale_axis(point: float) -> int:
+	return int(floor(point / _scale))
+
+
+func _scale_point(vector: Vector2) -> Vector2:
+	return(vector / _scale).floor()
+
+
+func _get_body_position(body: Node2D) -> Vector2:
+	return body.position
+
+
+func add_body(body: Node2D) -> void:
 	
-	var _bounds: Rect2
-	var _zones: Array
-	var _scale: int
-	var _map: Dictionary = {}
+	var center: = _get_body_position(body)
+	var scaled_point: = _scale_point(center)
 	
-	func _init(bounds: Rect2, scale: int):
-		_bounds = bounds
-		_scale = scale
-		
-		_zones = range(_scale_axis(_bounds.position.x), _scale_axis(_bounds.end.x))
-		
-		for x in range(_zones.size()):
-			_zones[x] = range(_scale_axis(_bounds.position.y), _scale_axis(_bounds.end.y))
-			for y in _zones[x].size():
-				_zones[x][y] = []
-
-
-	func _scale_axis(point: float) -> int:
-		return int(floor(point / _scale))
-
-
-	func _scale_point(vector: Vector2) -> Point2:
-		var scaled = (vector / _scale).floor()
-		return Point2.new(int(scaled.x), int(scaled.y))
-
+	if scaled_point.x < x_min:
+		scaled_point.x = x_min
+	elif scaled_point.x > x_max:
+		scaled_point.x = x_max
 	
-	func _get_body_position(body: Node2D) -> Vector2:
-		return body.global_position
+	if scaled_point.y < y_min:
+		scaled_point.y = y_min
+	elif scaled_point.y > y_max:
+		scaled_point.y = y_max
+	
+	_map[body.name] = scaled_point
+	_cells[int(scaled_point.x)][int(scaled_point.y)].append(body)
 
 
-	func add_body(body: Node2D) -> void:
-		
-		var this_point: = _get_body_position(body)
-		var scaled_point = _scale_point(this_point)
-		
-		_map[body.name] = scaled_point
-		_zones[int(scaled_point.x)][int(scaled_point.y)].append(body)
+func update_body(body: Node2D) -> void:
+	var prev_point: Vector2 = _map[body.name]
+	
+	var scaled_point: = _scale_point(_get_body_position(body))
+	
+	if prev_point.x != scaled_point.x or prev_point.y != scaled_point.y:
+		var loc: int = _cells[prev_point.x][prev_point.y].find(body)
+		_cells[prev_point.x][prev_point.y].remove(loc)
+		add_body(body)
 
 
-	func update_body(body: Node2D) -> void:
-		var prev_point: Point2 = _map[body.name]
-		
-		var scaled_point: = _scale_point(_get_body_position(body))
-		
-		if prev_point != scaled_point:
-			var loc: int = _zones[prev_point.x][prev_point.y].find(body)
-			_zones[prev_point.x][prev_point.y].remove(loc)
-			add_body(body)
+func get_bodies(body: Node2D):
+	var center: = _get_body_position(body)
+	var point: = _scale_point(center)
 
-
-	func get_bodies(body: Node2D, radius: float):
-		var center: = _get_body_position(body)
-		var point: = _scale_point(center)
-		var r = _scale_axis(radius)
-
-		var rx = range(point.x - r, point.x + r + 1)
-		var ry = range(point.y - r, point.y + r + 1)
-		
-		var bodies = []
-		for x in rx:
-			for y in ry:
-				bodies += _zones[x][y]
-		
-		return bodies
+	var x = point.x
+	if x < x_min:
+		x = x_min
+	elif x > x_max:
+		x = x_max
+	var y = point.y
+	if y < y_min:
+		y = y_min
+	elif y > y_max:
+		y = y_max
+	
+	var bodies = _cells[x][y]
+	if x - 1 >= x_min:
+		bodies += _cells[x - 1][y]
+	if x + 1 <= x_max:
+		bodies += _cells[x + 1][y]
+	if y - 1 >= y_min:
+		bodies += _cells[x][y - 1]
+	if y + 1 <= y_max:
+		bodies += _cells[x][y + 1]
+	
+	return bodies
