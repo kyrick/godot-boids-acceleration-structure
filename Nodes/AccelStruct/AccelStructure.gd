@@ -38,13 +38,14 @@ func add_body(body: Node2D, scaled_point: Vector2) -> void:
 
 
 func remove_body(body: Node2D, scaled_point: Vector2) -> void:
-	var loc: int = _cells[scaled_point.x][scaled_point.y].find(body)
-	_cells[scaled_point.x][scaled_point.y].remove(loc)
+#	var loc: int = _cells[scaled_point.x][scaled_point.y].find(body)
+#	_cells[scaled_point.x][scaled_point.y].remove(loc)
+	_cells[scaled_point.x][scaled_point.y].erase(body)
 
 
 func update_body(body: Node2D, scaled_point: Vector2, prev_point: Vector2) -> Vector2:	
 	
-	if prev_point.x != scaled_point.x or prev_point.y != scaled_point.y:
+	if scaled_point != prev_point:
 		remove_body(body, prev_point)
 		add_body(body, scaled_point)
 		return scaled_point
@@ -52,19 +53,19 @@ func update_body(body: Node2D, scaled_point: Vector2, prev_point: Vector2) -> Ve
 		return prev_point
 
 
-func get_bodies(body: Node2D, scaled_point: Vector2):
+func get_bodies(scaled_point: Vector2, facing: Vector2):
 	var x = scaled_point.x
 	var y = scaled_point.y
 	
-	var bodies = _cells[x][y]
+	var xx = x -1 if facing.x <= 0 else x + 1
+	var yy = y - 1 if facing.y <= 0 else y + 1
 	
-	if x - 1 >= x_min:
-		bodies += _cells[x - 1][y]
-	if x + 1 <= x_max:
-		bodies += _cells[x + 1][y]
-	if y - 1 >= y_min:
-		bodies += _cells[x][y - 1]
-	if y + 1 <= y_max:
-		bodies += _cells[x][y + 1]
+	xx = wrapi(xx, 0, x_max)
+	yy = wrapi(yy, 0, y_max)
+	
+	var bodies = [_cells[x][y]]
+	bodies.append(_cells[xx][y])
+	bodies.append(_cells[x][yy])
+	bodies.append(_cells[xx][yy])
 	
 	return bodies

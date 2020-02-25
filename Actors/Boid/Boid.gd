@@ -36,7 +36,7 @@ func _physics_process(delta):
 	
 	if _accel_struct != null:
 		var scaled_point = _accel_struct.scale_point(position)
-		var flock = _accel_struct.get_bodies(self, scaled_point)
+		var flock = _accel_struct.get_bodies(scaled_point, _velocity)
 		
 		var mouse_vector = Vector2.ZERO
 		if _mouse_target != Vector2.INF:
@@ -66,18 +66,19 @@ func get_flock_status(flock: Array):
 	var avoid_vector: = Vector2()
 	var flock_size: = 0
 
-	for f in flock:
-		if f != self:
-			var neighbor_pos: Vector2 = f.position
-	
-			if position.distance_to(neighbor_pos) < view_distance:
-				flock_size += 1
-				align_vector += f._velocity
-				flock_center += neighbor_pos
+	for cell in flock:
+		for f in cell:
+			if f != self:
+				var neighbor_pos: Vector2 = f.position
 		
-				var d = position.distance_to(neighbor_pos)
-				if d != 0 and d < avoid_distance:
-					avoid_vector -= (neighbor_pos - position).normalized() * (avoid_distance / d * max_speed)
+				if position.distance_to(neighbor_pos) < view_distance:
+					flock_size += 1
+					align_vector += f._velocity
+					flock_center += neighbor_pos
+			
+					var d = position.distance_to(neighbor_pos)
+					if d != 0 and d < avoid_distance:
+						avoid_vector -= (neighbor_pos - position).normalized() * (avoid_distance / d * max_speed)
 
 	if flock_size:
 		align_vector /= flock_size
