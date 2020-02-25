@@ -32,6 +32,11 @@ func _input(event):
 			_mouse_target = get_random_target()
 
 
+func _process(delta):
+	translate(_velocity * delta)
+	wrap_screen()
+
+
 func _physics_process(delta):
 	
 	if _accel_struct != null:
@@ -54,8 +59,6 @@ func _physics_process(delta):
 		
 		_velocity = (_velocity + acceleration).clamped(max_speed)
 		
-		translate(_velocity * delta)
-		wrap_screen()
 		_prev_point = _accel_struct.update_body(self, scaled_point, _prev_point)
 
 

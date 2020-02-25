@@ -18,6 +18,13 @@ _global_script_class_icons={
 config/name="godot-boids-acceleration-structure"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/size/borderless=true
+window/size/fullscreen=true
+
 [physics]
 
 common/physics_fps=10
