@@ -2,7 +2,6 @@ extends Node
 
 var _cells: Array
 var _scale: int
-var _map: Dictionary = {}
 
 var x_min: int
 var x_max: int
@@ -38,12 +37,10 @@ func add_body(body: Node2D, scaled_point: Vector2) -> void:
 
 
 func remove_body(body: Node2D, scaled_point: Vector2) -> void:
-#	var loc: int = _cells[scaled_point.x][scaled_point.y].find(body)
-#	_cells[scaled_point.x][scaled_point.y].remove(loc)
 	_cells[scaled_point.x][scaled_point.y].erase(body)
 
 
-func update_body(body: Node2D, scaled_point: Vector2, prev_point: Vector2) -> Vector2:	
+func update_body(body: Node2D, scaled_point: Vector2, prev_point: Vector2) -> Vector2:
 	
 	if scaled_point != prev_point:
 		remove_body(body, prev_point)
@@ -60,12 +57,15 @@ func get_bodies(scaled_point: Vector2, facing: Vector2):
 	var xx = x -1 if facing.x <= 0 else x + 1
 	var yy = y - 1 if facing.y <= 0 else y + 1
 	
-	xx = wrapi(xx, 0, x_max)
-	yy = wrapi(yy, 0, y_max)
+	var xx_in_bounds: bool = xx >= 0 and xx <= x_max
+	var yy_in_bounds: bool = yy >= 0 and yy <= y_max
 	
 	var bodies = [_cells[x][y]]
-	bodies.append(_cells[xx][y])
-	bodies.append(_cells[x][yy])
-	bodies.append(_cells[xx][yy])
-	
+	if xx_in_bounds:
+		bodies.append(_cells[xx][y])
+	if yy_in_bounds:
+		bodies.append(_cells[x][yy])
+	if xx_in_bounds and yy_in_bounds:
+		bodies.append(_cells[xx][yy])
+
 	return bodies
