@@ -20,6 +20,7 @@ var _accel_struct
 
 func _ready():
 	randomize()
+	_velocity = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized() * max_speed
 	_mouse_target = get_random_target()
 
 
@@ -38,7 +39,6 @@ func _process(delta):
 
 func _physics_process(delta):
 	
-
 	var scaled_point = _accel_struct.scale_point(position)
 	var flock = _accel_struct.get_bodies(scaled_point, _velocity)
 	

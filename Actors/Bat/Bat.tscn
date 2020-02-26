@@ -33,7 +33,7 @@ animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
 "loop": true,
 "name": "default",
-"speed": 5.0
+"speed": 20.0
 } ]
 
 [node name="Boid" instance=ExtResource( 1 )]
@@ -44,5 +44,5 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="1"]
 position = Vector2( 0.0944672, -4.34553 )
 frames = SubResource( 6 )
-frame = 1
+frame = 4
 playing = true

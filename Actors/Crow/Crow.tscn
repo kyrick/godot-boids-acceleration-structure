@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Actors/Crow/Crow.gd" type="Script" id=1]
+[ext_resource path="res://Actors/Crow/sprites/arrow.png" type="Texture" id=2]
+
+[node name="Crow" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+max_speed = 50.0
+mouse_follow_force = 0.01
+cohesion_force = 0.2
+algin_force = 0.5
+separation_force = 0.2
+view_distance = 20.0
+avoid_distance = 10.0
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0.789982, 1.79621e-13 )
+rotation = 1.57079
+scale = Vector2( 0.4, 0.4 )
+texture = ExtResource( 2 )
