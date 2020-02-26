@@ -20,7 +20,6 @@ var _accel_struct
 
 func _ready():
 	randomize()
-	_velocity = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized() * max_speed
 	_mouse_target = get_random_target()
 
 
@@ -39,27 +38,27 @@ func _process(delta):
 
 func _physics_process(delta):
 	
-	if _accel_struct != null:
-		var scaled_point = _accel_struct.scale_point(position)
-		var flock = _accel_struct.get_bodies(scaled_point, _velocity)
-		
-		var mouse_vector = Vector2.ZERO
-		if _mouse_target != Vector2.INF:
-			mouse_vector = global_position.direction_to(_mouse_target) * max_speed * mouse_follow_force
-		
-		# get cohesion, alginment, and separation vectors
-		var vectors = get_flock_status(flock)
-		
-		# steer towards vectors
-		var cohesion_vector = vectors[0] * cohesion_force
-		var align_vector = vectors[1] * algin_force
-		var separation_vector = vectors[2] * separation_force
+
+	var scaled_point = _accel_struct.scale_point(position)
+	var flock = _accel_struct.get_bodies(scaled_point, _velocity)
 	
-		var acceleration = cohesion_vector + align_vector + separation_vector + mouse_vector
-		
-		_velocity = (_velocity + acceleration).clamped(max_speed)
-		
-		_prev_point = _accel_struct.update_body(self, scaled_point, _prev_point)
+	var mouse_vector = Vector2.ZERO
+	if _mouse_target != Vector2.INF:
+		mouse_vector = global_position.direction_to(_mouse_target) * mouse_follow_force
+	
+	# get cohesion, alginment, and separation vectors
+	var vectors = get_flock_status(flock)
+	
+	# steer towards vectors
+	var cohesion_vector = vectors[0] * cohesion_force
+	var align_vector = vectors[1] * algin_force
+	var separation_vector = vectors[2] * separation_force
+
+	var acceleration = (cohesion_vector + separation_vector + mouse_vector) * max_speed + align_vector
+	
+	_velocity = (_velocity + acceleration).clamped(max_speed)
+	
+	_prev_point = _accel_struct.update_body(self, scaled_point, _prev_point)
 
 
 func get_flock_status(flock: Array):
@@ -81,14 +80,14 @@ func get_flock_status(flock: Array):
 			
 					var d = position.distance_to(neighbor_pos)
 					if d != 0 and d < avoid_distance:
-						avoid_vector -= (neighbor_pos - position).normalized() * (avoid_distance / d * max_speed)
+						avoid_vector -= (neighbor_pos - position).normalized() * (avoid_distance / d)
 
 	if flock_size:
 		align_vector /= flock_size
 		flock_center /= flock_size
 
 		var center_dir = position.direction_to(flock_center)
-		var center_speed = max_speed * (position.distance_to(flock_center) / view_distance)
+		var center_speed = (position.distance_to(flock_center) / view_distance)
 		center_vector = center_dir * center_speed
 
 	return [center_vector, align_vector, avoid_vector]
