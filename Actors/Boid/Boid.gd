@@ -13,7 +13,7 @@ onready var screen_size = get_viewport_rect().size
 var _prev_point = null
 
 var _mouse_target: Vector2
-var _velocity: Vector2
+var _velocity: Vector2 setget velocity_set, velocity_get
 
 var _accel_struct
 
@@ -38,7 +38,6 @@ func _process(delta):
 
 
 func _physics_process(delta):
-	
 	var scaled_point = _accel_struct.scale_point(position)
 	var flock = _accel_struct.get_bodies(scaled_point, _velocity)
 	
@@ -54,9 +53,9 @@ func _physics_process(delta):
 	var align_vector = vectors[1] * algin_force
 	var separation_vector = vectors[2] * separation_force
 
-	var acceleration = (cohesion_vector + separation_vector + mouse_vector) * max_speed + align_vector
+	var acceleration = align_vector + max_speed * (cohesion_vector + separation_vector + mouse_vector)
 	
-	_velocity = (_velocity + acceleration).clamped(max_speed)
+	velocity_set((_velocity + acceleration).clamped(max_speed))
 	
 	_prev_point = _accel_struct.update_body(self, scaled_point, _prev_point)
 
@@ -75,7 +74,7 @@ func get_flock_status(flock: Array):
 		
 				if position.distance_to(neighbor_pos) < view_distance:
 					flock_size += 1
-					align_vector += f._velocity
+					align_vector += f.velocity_get()
 					flock_center += neighbor_pos
 			
 					var d = position.distance_to(neighbor_pos)
@@ -101,3 +100,11 @@ func get_random_target():
 func wrap_screen():
 	position.x = wrapf(position.x, 0, screen_size.x)
 	position.y = wrapf(position.y, 0, screen_size.y)
+
+
+func velocity_set(velocity: Vector2):
+	_velocity = velocity
+
+
+func velocity_get():
+	return _velocity

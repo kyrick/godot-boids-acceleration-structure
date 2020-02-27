@@ -16,7 +16,8 @@ _global_script_class_icons={
 [application]
 
 config/name="godot-boids-acceleration-structure"
-config/icon="res://icon.png"
+run/main_scene="res://Levels/RandomSpawn/RandomSpawn.tscn"
+config/icon="res://Chick_Avatar.png"
 
 [display]
 
