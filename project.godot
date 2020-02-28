@@ -28,7 +28,7 @@ window/size/fullscreen=true
 
 [physics]
 
-common/physics_fps=10
+common/physics_fps=30
 common/enable_object_picking=false
 
 [rendering]

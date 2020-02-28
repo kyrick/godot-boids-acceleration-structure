@@ -16,7 +16,7 @@ var _mouse_target: Vector2
 var _velocity: Vector2 setget velocity_set, velocity_get
 
 var _accel_struct
-
+var _flock_size: int = 0
 
 func _ready():
 	randomize()
@@ -52,6 +52,7 @@ func _physics_process(delta):
 	var cohesion_vector = vectors[0] * cohesion_force
 	var align_vector = vectors[1] * algin_force
 	var separation_vector = vectors[2] * separation_force
+	_flock_size = vectors[3]
 
 	var acceleration = align_vector + max_speed * (cohesion_vector + separation_vector + mouse_vector)
 	
@@ -89,7 +90,7 @@ func get_flock_status(flock: Array):
 		var center_speed = (position.distance_to(flock_center) / view_distance)
 		center_vector = center_dir * center_speed
 
-	return [center_vector, align_vector, avoid_vector]
+	return [center_vector, align_vector, avoid_vector, flock_size]
 
 
 func get_random_target():
