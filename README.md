@@ -20,7 +20,7 @@ You can control the paremeters of the simulation in the editor.
 
 The Crow scene script variables:
 * View distance - distance to view flock for each Boid
-* Avoid distance - the distance at which a void will try to avoid another boid
+* Avoid distance - the distance at which a boid will try to avoid another boid
 * Max Speed - the maximum speed of the boid
 * Force - There is a seperate force for each vector: cohesion, separation, alignment and mouse follow. Try playing with them :) 
 
