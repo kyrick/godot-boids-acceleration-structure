@@ -34,7 +34,7 @@ func process(delta):
 	position += velocity * delta
 	wrap_screen()
 
-	var flock = _accel_struct.get_bodies(scaled_pos, velocity)
+	var flock = _accel_struct.get_bodies(scaled_pos)
 
 	var mouse_vector = global_position.direction_to(_mouse_target) * mouse_follow_force
 

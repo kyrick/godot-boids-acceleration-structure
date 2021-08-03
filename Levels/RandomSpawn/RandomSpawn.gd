@@ -7,13 +7,13 @@ export(PackedScene) var Boid
 export(int) var struct_scale = 10 
 export(int) var compute_groups = 4
 
-onready var screen_rect: = get_viewport_rect()
+onready var screen_size: = get_viewport_rect().size
 
 var _accel_struct: AccelStruct
 var boids = []
 
 func _ready():
-	_accel_struct = AccelStruct.new(screen_rect, struct_scale)
+	_accel_struct = AccelStruct.new(screen_size, struct_scale)
 	
 	for _i in compute_groups:
 		# define the compute groups as separate arrays
@@ -22,7 +22,6 @@ func _ready():
 	for i in range(max_boids):
 		randomize()
 		var boid = Boid.instance()
-		var screen_size = screen_rect.size
 		var init_pos: = Vector2(rand_range(0, screen_size.x), rand_range(0, screen_size.y))
 		boid.position = init_pos
 		var scaled_pos = _accel_struct.scale_point(init_pos)
@@ -37,7 +36,7 @@ func _ready():
 
 
 func _process(delta):
-	_accel_struct = AccelStruct.new(screen_rect, struct_scale)
+	_accel_struct = AccelStruct.new(screen_size, struct_scale)
 	
 	for group in boids:
 		for boid in group:
