@@ -10,17 +10,16 @@ export(float) var avoid_distance: = 20.0
 
 onready var screen_size = get_viewport_rect().size
 
-var _prev_point = null
-
 var _mouse_target: Vector2
-var _velocity: Vector2 setget velocity_set, velocity_get
+var velocity: Vector2
 
 var _accel_struct
+var scaled_pos
 var _flock_size: int = 0
 
 func _ready():
 	randomize()
-	_velocity = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized() * max_speed
+	velocity = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized() * max_speed
 	_mouse_target = get_random_target()
 
 
@@ -31,20 +30,14 @@ func _input(event):
 		elif event.get_button_index() == BUTTON_RIGHT:
 			_mouse_target = get_random_target()
 
-
-func _process(delta):
-	translate(_velocity * delta)
+func process(delta):
+	position += velocity * delta
 	wrap_screen()
 
+	var flock = _accel_struct.get_bodies(scaled_pos, velocity)
 
-func _physics_process(delta):
-	var scaled_point = _accel_struct.scale_point(position)
-	var flock = _accel_struct.get_bodies(scaled_point, _velocity)
-	
-	var mouse_vector = Vector2.ZERO
-	if _mouse_target != Vector2.INF:
-		mouse_vector = global_position.direction_to(_mouse_target) * mouse_follow_force
-	
+	var mouse_vector = global_position.direction_to(_mouse_target) * mouse_follow_force
+
 	# get cohesion, alginment, and separation vectors
 	var vectors = get_flock_status(flock)
 	
@@ -56,10 +49,7 @@ func _physics_process(delta):
 
 	var acceleration = align_vector + max_speed * (cohesion_vector + separation_vector + mouse_vector)
 	
-	velocity_set((_velocity + acceleration).clamped(max_speed))
-	
-	_prev_point = _accel_struct.update_body(self, scaled_point, _prev_point)
-
+	velocity = (velocity + acceleration).clamped(max_speed)
 
 func get_flock_status(flock: Array):
 	var center_vector: = Vector2()
@@ -75,7 +65,7 @@ func get_flock_status(flock: Array):
 		
 				if position.distance_to(neighbor_pos) < view_distance:
 					flock_size += 1
-					align_vector += f.velocity_get()
+					align_vector += f.velocity
 					flock_center += neighbor_pos
 			
 					var d = position.distance_to(neighbor_pos)
@@ -101,11 +91,3 @@ func get_random_target():
 func wrap_screen():
 	position.x = wrapf(position.x, 0, screen_size.x)
 	position.y = wrapf(position.y, 0, screen_size.y)
-
-
-func velocity_set(velocity: Vector2):
-	_velocity = velocity
-
-
-func velocity_get():
-	return _velocity

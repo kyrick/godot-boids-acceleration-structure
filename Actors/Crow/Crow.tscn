@@ -9,7 +9,6 @@ __meta__ = {
 "_editor_description_": ""
 }
 max_speed = 60.0
-mouse_follow_force = 0.05
 cohesion_force = 0.5
 algin_force = 0.2
 separation_force = 0.1

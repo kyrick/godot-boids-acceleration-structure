@@ -44,5 +44,4 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="1"]
 position = Vector2( 0.0944672, -4.34553 )
 frames = SubResource( 6 )
-frame = 4
 playing = true
