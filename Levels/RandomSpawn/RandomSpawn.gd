@@ -22,7 +22,6 @@ func _ready():
 		var boid = Boid.instance()
 		var init_pos: = Vector2(rand_range(0, screen_size.x), rand_range(0, screen_size.y))
 		boid.position = init_pos
-#		boid.max_speed = max_speed
 		var scaled_point = _accel_struct.scale_point(init_pos)
 		_accel_struct.add_body(boid, scaled_point)
 		scaled_points[i] = scaled_point

@@ -7,12 +7,13 @@
 "prey",
 ]]
 script = ExtResource( 2 )
-min_speed = 100.0
-mouse_follow_force = 5.0
-cohesion_force = 5.0
-algin_force = 1.0
-separation_force = 3.0
-avoid_distance = 10.0
+max_speed = 100.0
+min_speed = 90.0
+mouse_follow_force = 3.0
+cohesion_force = 30.0
+algin_force = 40.0
+separation_force = 50.0
+avoid_distance = 5.0
 
 [node name="Chicken" type="Sprite" parent="."]
 position = Vector2( 0, -0.902754 )

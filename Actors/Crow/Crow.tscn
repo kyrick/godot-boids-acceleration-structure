@@ -9,12 +9,12 @@ __meta__ = {
 "_editor_description_": ""
 }
 max_speed = 100.0
+min_speed = 75.0
 mouse_follow_force = 10.0
-cohesion_force = 3.0
-algin_force = 2.0
-separation_force = 4.0
-view_distance = 20.0
-avoid_distance = 15.0
+cohesion_force = 70.0
+algin_force = 30.0
+separation_force = 30.0
+avoid_distance = 5.0
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 1.61354, 2.23908e-13 )
