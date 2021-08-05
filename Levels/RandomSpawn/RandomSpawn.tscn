@@ -1,15 +1,15 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Levels/common/black_tiles.tres" type="TileSet" id=1]
-[ext_resource path="res://Actors/Crow/Crow.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Actors/Boid/Boid.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Actors/MarkerFlag/MarkerFlag.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Levels/RandomSpawn/RandomSpawn.gd" type="Script" id=4]
 
 [node name="RandomChickens" type="Node2D"]
 script = ExtResource( 4 )
-max_boids = 2000
+max_boids = 500
 Boid = ExtResource( 2 )
-struct_scale = 20
+compute_groups = 2
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )

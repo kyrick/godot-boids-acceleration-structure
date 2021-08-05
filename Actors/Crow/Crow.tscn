@@ -8,12 +8,12 @@ script = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
-max_speed = 60.0
+max_speed = 75.0
 cohesion_force = 0.5
 algin_force = 0.2
 separation_force = 0.1
 view_distance = 20.0
-avoid_distance = 10.0
+avoid_distance = 15.0
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 1.61354, 2.23908e-13 )

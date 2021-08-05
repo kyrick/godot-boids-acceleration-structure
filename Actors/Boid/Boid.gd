@@ -1,10 +1,11 @@
 extends Node2D
 
-export var max_speed: = 200.0
-export var mouse_follow_force: = 0.05
-export var cohesion_force: = 0.05
-export var algin_force: = 0.05
-export var separation_force: = 0.05
+export(float) var max_speed: = 200.0
+export(float) var min_speed: = 40.0
+export(float) var mouse_follow_force: = 0.05
+export(float) var cohesion_force: = 0.05
+export(float) var algin_force: = 0.05
+export(float) var separation_force: = 0.05
 export(float) var view_distance: = 50.0
 export(float) var avoid_distance: = 20.0
 
@@ -12,10 +13,12 @@ onready var screen_size = get_viewport_rect().size
 
 var _mouse_target: Vector2
 var velocity: Vector2
+var mouse_follow = false
 
-var _accel_struct
-var scaled_pos
+# a 2D array of "cells"
+var flock = []
 var _flock_size: int = 0
+
 
 func _ready():
 	randomize()
@@ -26,20 +29,18 @@ func _ready():
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.get_button_index() == BUTTON_LEFT:
+			mouse_follow = true
 			_mouse_target = event.position
 		elif event.get_button_index() == BUTTON_RIGHT:
-			_mouse_target = get_random_target()
+			mouse_follow = false
+
 
 func process(delta):
 	position += velocity * delta
 	wrap_screen()
 
-	var flock = _accel_struct.get_bodies(scaled_pos)
-
-	var mouse_vector = global_position.direction_to(_mouse_target) * mouse_follow_force
-
 	# get cohesion, alginment, and separation vectors
-	var vectors = get_flock_status(flock)
+	var vectors = get_flock_status()
 	
 	# steer towards vectors
 	var cohesion_vector = vectors[0] * cohesion_force
@@ -47,11 +48,17 @@ func process(delta):
 	var separation_vector = vectors[2] * separation_force
 	_flock_size = vectors[3]
 
-	var acceleration = align_vector + max_speed * (cohesion_vector + separation_vector + mouse_vector)
+	var acceleration = align_vector + cohesion_vector + separation_vector
+	if mouse_follow:
+		var mouse_vector = global_position.direction_to(_mouse_target) * mouse_follow_force
+		acceleration += mouse_vector
 	
 	velocity = (velocity + acceleration).clamped(max_speed)
+	if velocity.length() <= min_speed:
+		velocity = (velocity * min_speed).clamped(max_speed)
 
-func get_flock_status(flock: Array):
+
+func get_flock_status():
 	var center_vector: = Vector2()
 	var flock_center: = Vector2()
 	var align_vector: = Vector2()
@@ -60,17 +67,18 @@ func get_flock_status(flock: Array):
 
 	for cell in flock:
 		for f in cell:
-			if f != self:
-				var neighbor_pos: Vector2 = f.position
+			if f == self:
+				continue
+			var neighbor_pos: Vector2 = f.position
+	
+			if position.distance_to(neighbor_pos) < view_distance:
+				flock_size += 1
+				align_vector += f.velocity
+				flock_center += neighbor_pos
 		
-				if position.distance_to(neighbor_pos) < view_distance:
-					flock_size += 1
-					align_vector += f.velocity
-					flock_center += neighbor_pos
-			
-					var d = position.distance_to(neighbor_pos)
-					if d != 0 and d < avoid_distance:
-						avoid_vector -= (neighbor_pos - position).normalized() * (avoid_distance / d)
+				var d = position.distance_to(neighbor_pos)
+				if d != 0 and d < avoid_distance:
+					avoid_vector -= (neighbor_pos - position).normalized() * (avoid_distance / d)
 
 	if flock_size:
 		align_vector /= flock_size
@@ -80,7 +88,10 @@ func get_flock_status(flock: Array):
 		var center_speed = (position.distance_to(flock_center) / view_distance)
 		center_vector = center_dir * center_speed
 
-	return [center_vector, align_vector, avoid_vector, flock_size]
+	return [center_vector,
+			align_vector, 
+			avoid_vector, 
+			flock_size]
 
 
 func get_random_target():
