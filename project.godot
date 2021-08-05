@@ -10,7 +10,6 @@ config_version=4
 
 _global_script_classes=[  ]
 _global_script_class_icons={
-
 }
 
 [application]
@@ -28,9 +27,9 @@ window/size/fullscreen=true
 
 [physics]
 
-common/physics_fps=30
 common/enable_object_picking=false
 
 [rendering]
 
+threads/thread_model=2
 environment/default_environment="res://default_env.tres"

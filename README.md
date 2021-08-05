@@ -1,8 +1,6 @@
 # Boids in Godot with Acceleration Structure
 
-This is my second attempt at boids in godot. I implemented an acceleration strcuture to optimize the nearest neighbor lookups. All boid locations are stored in a 2D which represets the space. The boids query the structure to get 4 cells based on the facing of the boids. The boids then filter that list based on their view range. This way the boid isn't looping over the entire list of boids. It's only concered with it's immedaite surroundings. 
-
-I also slowed the physics engine down to 10 Hz to increase the number of boids past 2000. You can adjust the physics engine Hz in Project Settings->Physics->Common->Physics FPS
+This is my second attempt at boids in godot. I've implemented an acceleration structure which is a spatial partitioning scheme which optimizes the nearest neighbor lookups. All boid locations are stored in a 2D grid which represets the space. The boids query the structure to the cells in it's vacinity. The boids then filter that list based on their view range. This way the boid isn't looping over the entire list of neighbors. It's only concered with it's immedaite surroundings.
 
 For more information on boids see [Craig Reynolds Boids](https://en.wikipedia.org/wiki/Boids). A more detailed breakdown of [Boids with pseudocode can be found here](http://www.kfish.org/boids/pseudocode.html).
 
@@ -12,7 +10,7 @@ Click F5 to run the default screen. Then click anywhere on the screen to issue a
 
 Controls: 
 * left click - place target flag
-* right click - scatter the boids to random locations on the screen.
+* right click - delete target.
 
 # Adjusting the simulation
 
