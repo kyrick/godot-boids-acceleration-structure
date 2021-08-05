@@ -10,8 +10,8 @@ script = ExtResource( 2 )
 min_speed = 100.0
 mouse_follow_force = 5.0
 cohesion_force = 5.0
-algin_force = 10.0
-separation_force = 5.0
+algin_force = 1.0
+separation_force = 3.0
 avoid_distance = 10.0
 
 [node name="Chicken" type="Sprite" parent="."]

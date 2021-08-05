@@ -8,10 +8,11 @@ script = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
-max_speed = 75.0
-cohesion_force = 0.5
-algin_force = 0.2
-separation_force = 0.1
+max_speed = 100.0
+mouse_follow_force = 10.0
+cohesion_force = 3.0
+algin_force = 2.0
+separation_force = 4.0
 view_distance = 20.0
 avoid_distance = 15.0
 
