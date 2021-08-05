@@ -8,57 +8,53 @@ export(int) var struct_scale = 10
 export(int) var compute_groups = 4
 
 onready var screen_size: = get_viewport_rect().size
+onready var scaled_points = range(max_boids)
 
 var _accel_struct: AccelStruct
 var boids = []
 
+
 func _ready():
-	_accel_struct = AccelStruct.new(screen_size, struct_scale)
-	
-	var scaled_points = range(max_boids)
-	
-	for i in range(max_boids):
+	# initialize the boids
+	for i in max_boids:
 		randomize()
 		var boid = Boid.instance()
 		var init_pos: = Vector2(rand_range(0, screen_size.x), rand_range(0, screen_size.y))
 		boid.position = init_pos
-#		boid.max_speed = max_speed
-		var scaled_point = _accel_struct.scale_point(init_pos)
-		_accel_struct.add_body(boid, scaled_point)
-		scaled_points[i] = scaled_point
 		boids.append(boid)
-		
-	for i in range(max_boids):
-		boids[i].flock = _accel_struct.get_bodies(scaled_points[i])
 		add_child(boids[i])
 
 
 func _process(delta):
-#	var threads = []
-#
-#	for group in compute_groups:
-#		var thread = Thread.new()
-#		thread.start(self, "process_group", {"delta": delta, "group": group})
-#		threads.append(thread)
-	
+	# rebuild the accel_struct for the entire scene
+	build_struct()
+	# update each boid with it's respective partition
+	update_boids()
+	# move the boids
+	process_boids(delta)
+
+
+func build_struct():
 	_accel_struct = AccelStruct.new(screen_size, struct_scale)
-
-	var scaled_points = range(boids.size())
-
 	for i in boids.size():
 		var scaled_point = _accel_struct.scale_point(boids[i].position)
 		_accel_struct.add_body(boids[i], scaled_point)
 		scaled_points[i] = scaled_point
 
-#	for t in threads:
-#		t.wait_to_finish()
-	
+
+func update_boids():
 	for i in boids.size():
 		boids[i].flock = _accel_struct.get_bodies(scaled_points[i])
+
+
+func process_boids(delta):
 	for group in compute_groups:
 		process_group({"delta": delta, "group": group})
 
 
+# I tried out compute groups and threads
+# But both methods introduced stuttering
+# I was sad.
 func process_group(data):
 	var start = boids.size() / compute_groups * data.group
 	var end = start + boids.size() / compute_groups
@@ -68,4 +64,3 @@ func process_group(data):
 		end += boids.size() % compute_groups
 	for i in range(start, end):
 		boids[i].process(data.delta)
-	
