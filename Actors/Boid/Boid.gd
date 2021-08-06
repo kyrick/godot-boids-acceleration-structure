@@ -8,6 +8,7 @@ export(float) var algin_force: = 0.05
 export(float) var separation_force: = 0.05
 export(float) var view_distance: = 50.0
 export(float) var avoid_distance: = 20.0
+export(int) var max_flock_size: = 8
 
 onready var screen_size = get_viewport_rect().size
 
@@ -66,25 +67,30 @@ func get_flock_status():
 	var flock_size: = 0
 
 	for cell in flock:
-		for f in cell:
-			if f == self:
+		for other in cell:
+			if flock_size == max_flock_size:
+				break
+
+			if other == self:
 				continue
-			var neighbor_pos: Vector2 = f.global_position
+
+			var other_pos: Vector2 = other.global_position
+			var other_velocity: Vector2 = other.velocity
 	
-			if global_position.distance_to(neighbor_pos) < view_distance:
+			if global_position.distance_to(other_pos) < view_distance:
 				flock_size += 1
-				align_vector += f.velocity
-				flock_center += neighbor_pos
+				align_vector += other_velocity
+				flock_center += other_pos
 		
-				var d = global_position.distance_to(neighbor_pos)
+				var d = global_position.distance_to(other_pos)
 				if d < avoid_distance:
-					avoid_vector -= neighbor_pos - global_position
+					avoid_vector -= other_pos - global_position
 
 	if flock_size:
 		align_vector /= flock_size
 		flock_center /= flock_size
 
-		var centor_vector = global_position.direction_to(flock_center)
+		center_vector = global_position.direction_to(flock_center)
 
 	return [center_vector.normalized(),
 			align_vector.normalized(), 
