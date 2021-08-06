@@ -18,7 +18,7 @@ var mouse_follow = false
 
 # a 2D array of "cells"
 var flock = []
-var _flock_size: int = 0
+var flock_size: int = 0
 
 
 func _ready():
@@ -47,7 +47,7 @@ func process(delta):
 	var cohesion_vector = vectors[0] * cohesion_force
 	var align_vector = vectors[1] * algin_force
 	var separation_vector = vectors[2] * separation_force
-	_flock_size = vectors[3]
+	flock_size = vectors[3]
 
 	var acceleration = align_vector + cohesion_vector + separation_vector
 	if mouse_follow:
