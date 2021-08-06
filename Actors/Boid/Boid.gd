@@ -90,7 +90,7 @@ func get_flock_status():
 		align_vector /= flock_size
 		flock_center /= flock_size
 
-		var centor_vector = global_position.direction_to(flock_center)
+		center_vector = global_position.direction_to(flock_center)
 
 	return [center_vector.normalized(),
 			align_vector.normalized(), 
