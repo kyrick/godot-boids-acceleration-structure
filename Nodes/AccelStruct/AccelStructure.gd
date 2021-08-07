@@ -39,7 +39,7 @@ func get_bodies(scaled_point: Vector2):
 	var down = wrapi(y + 1, 0, size.y)
 	var left = wrapi(x - 1, 0, size.x)
 	var right = wrapi(x + 1, 0, size.x)
-	
+
 	# up
 	bodies.append(_cells[x][up])
 	bodies.append(_cells[left][up])

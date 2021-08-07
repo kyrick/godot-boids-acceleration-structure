@@ -8,6 +8,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
+avoid_distance = 20.0
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 1.61354, 2.23908e-13 )

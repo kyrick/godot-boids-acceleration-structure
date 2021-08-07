@@ -6,6 +6,8 @@ func _init():
 
 
 func _input(event):
+	# disable for now
+	return
 	if event is InputEventMouseButton:
 		if event.get_button_index() == BUTTON_LEFT:
 			visible = true

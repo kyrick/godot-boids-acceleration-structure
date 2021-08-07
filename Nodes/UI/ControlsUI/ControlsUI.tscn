@@ -1,0 +1,90 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Nodes/UI/Slider/Slider.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Nodes/UI/ControlsUI/ControlsUI.gd" type="Script" id=2]
+
+[node name="ControlsUI" type="Control"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sliders" type="HBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -60.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cohesion" parent="Sliders" instance=ExtResource( 1 )]
+margin_right = 209.0
+margin_bottom = 60.0
+initial_value = 2
+
+[node name="Separation" parent="Sliders" instance=ExtResource( 1 )]
+margin_left = 213.0
+margin_right = 423.0
+margin_bottom = 60.0
+parameter = "separation"
+initial_value = 2
+
+[node name="Alignment" parent="Sliders" instance=ExtResource( 1 )]
+margin_left = 427.0
+margin_right = 637.0
+margin_bottom = 60.0
+parameter = "alignment"
+initial_value = 3
+
+[node name="TargetForce" parent="Sliders" instance=ExtResource( 1 )]
+margin_left = 641.0
+margin_right = 851.0
+margin_bottom = 60.0
+parameter = "target_force"
+initial_value = 2
+
+[node name="ViewDistance" parent="Sliders" instance=ExtResource( 1 )]
+margin_left = 855.0
+margin_right = 1064.0
+margin_bottom = 60.0
+parameter = "view_distance"
+initial_value = 80
+min_value = 5
+max_value = 100
+
+[node name="AvoidDistance" parent="Sliders" instance=ExtResource( 1 )]
+margin_left = 1068.0
+margin_right = 1278.0
+margin_bottom = 60.0
+parameter = "avoid_distance"
+initial_value = 15
+max_value = 100
+
+[node name="MinSpeed" parent="Sliders" instance=ExtResource( 1 )]
+margin_left = 1282.0
+margin_right = 1492.0
+margin_bottom = 60.0
+parameter = "min_speed"
+initial_value = 90
+max_value = 500
+
+[node name="MaxSpeed" parent="Sliders" instance=ExtResource( 1 )]
+margin_left = 1496.0
+margin_right = 1706.0
+margin_bottom = 60.0
+parameter = "max_speed"
+initial_value = 100
+max_value = 500
+
+[node name="MaxFlockSize" parent="Sliders" instance=ExtResource( 1 )]
+margin_left = 1710.0
+margin_right = 1920.0
+margin_bottom = 60.0
+parameter = "max_flock_size"
+initial_value = 25
+min_value = 1
+max_value = 300

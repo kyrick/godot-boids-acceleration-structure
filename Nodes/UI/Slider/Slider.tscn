@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Nodes/UI/Slider/Slider.gd" type="Script" id=1]
+
+[node name="Slider" type="MarginContainer"]
+margin_right = 369.0
+margin_bottom = 53.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 369.0
+margin_bottom = 53.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_right = 369.0
+margin_bottom = 14.0
+text = "Control"
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 18.0
+margin_right = 369.0
+margin_bottom = 42.0
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/HBoxContainer"]
+margin_right = 291.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+tick_count = 20
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+margin_left = 295.0
+margin_right = 369.0
+margin_bottom = 24.0
+
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/HSlider" to="." method="_on_HSlider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/SpinBox" to="." method="_on_SpinBox_value_changed"]
