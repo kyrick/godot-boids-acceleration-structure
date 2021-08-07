@@ -1,14 +1,14 @@
 extends Node2D
 
-export(float) var max_speed: = 200.0
-export(float) var min_speed: = 40.0
-export(float) var mouse_follow_force: = 0.05
-export(float) var cohesion_force: = 0.05
-export(float) var algin_force: = 0.05
-export(float) var separation_force: = 0.05
+export(float) var max_speed: = 100.0
+export(float) var min_speed: = 80.0
+export(float) var mouse_follow_force: = 2.0
+export(float) var cohesion_force: = 2.0
+export(float) var algin_force: = 3.0
+export(float) var separation_force: = 5.0
 export(float) var view_distance: = 50.0
-export(float) var avoid_distance: = 20.0
-export(int) var max_flock_size: = 8
+export(float) var avoid_distance: = 15.0
+export(int) var max_flock_size: = 15
 
 onready var screen_size = get_viewport_rect().size
 
