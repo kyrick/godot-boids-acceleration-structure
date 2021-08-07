@@ -7,7 +7,7 @@
 
 [node name="RandomChickens" type="Node2D"]
 script = ExtResource( 4 )
-max_boids = 1000
+max_boids = 1500
 Boid = ExtResource( 2 )
 struct_scale = 20
 

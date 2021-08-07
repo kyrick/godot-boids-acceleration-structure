@@ -16,13 +16,13 @@ var boids = []
 
 func _ready():
 	# initialize the boids
-	for i in max_boids:
+	for _i in max_boids:
 		randomize()
 		var boid = Boid.instance()
 		var init_pos: = Vector2(rand_range(0, screen_size.x), rand_range(0, screen_size.y))
 		boid.position = init_pos
 		boids.append(boid)
-		add_child(boids[i])
+		add_child(boid)
 
 
 func _process(delta):

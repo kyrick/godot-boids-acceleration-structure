@@ -1,14 +1,14 @@
 extends Node2D
 
-export(float) var max_speed: = 200.0
-export(float) var min_speed: = 40.0
-export(float) var mouse_follow_force: = 0.05
-export(float) var cohesion_force: = 0.05
-export(float) var algin_force: = 0.05
-export(float) var separation_force: = 0.05
+export(float) var max_speed: = 100.0
+export(float) var min_speed: = 80.0
+export(float) var mouse_follow_force: = 2.0
+export(float) var cohesion_force: = 2.0
+export(float) var algin_force: = 3.0
+export(float) var separation_force: = 5.0
 export(float) var view_distance: = 50.0
-export(float) var avoid_distance: = 20.0
-export(int) var max_flock_size: = 8
+export(float) var avoid_distance: = 15.0
+export(int) var max_flock_size: = 15
 
 onready var screen_size = get_viewport_rect().size
 
@@ -18,7 +18,7 @@ var mouse_follow = false
 
 # a 2D array of "cells"
 var flock = []
-var _flock_size: int = 0
+var flock_size: int = 0
 
 
 func _ready():
@@ -47,7 +47,7 @@ func process(delta):
 	var cohesion_vector = vectors[0] * cohesion_force
 	var align_vector = vectors[1] * algin_force
 	var separation_vector = vectors[2] * separation_force
-	_flock_size = vectors[3]
+	flock_size = vectors[3]
 
 	var acceleration = align_vector + cohesion_vector + separation_vector
 	if mouse_follow:
