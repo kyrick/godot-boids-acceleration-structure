@@ -24,28 +24,36 @@ __meta__ = {
 [node name="Cohesion" parent="Sliders" instance=ExtResource( 1 )]
 margin_right = 209.0
 margin_bottom = 60.0
-initial_value = 2
+initial_value = 20
+max_value = 100
+scale_by = 0.1
 
 [node name="Separation" parent="Sliders" instance=ExtResource( 1 )]
 margin_left = 213.0
 margin_right = 423.0
 margin_bottom = 60.0
 parameter = "separation"
-initial_value = 2
+initial_value = 30
+max_value = 100
+scale_by = 0.1
 
 [node name="Alignment" parent="Sliders" instance=ExtResource( 1 )]
 margin_left = 427.0
 margin_right = 637.0
 margin_bottom = 60.0
 parameter = "alignment"
-initial_value = 3
+initial_value = 30
+max_value = 100
+scale_by = 0.1
 
 [node name="TargetForce" parent="Sliders" instance=ExtResource( 1 )]
 margin_left = 641.0
 margin_right = 851.0
 margin_bottom = 60.0
 parameter = "target_force"
-initial_value = 2
+initial_value = 20
+max_value = 100
+scale_by = 0.1
 
 [node name="ViewDistance" parent="Sliders" instance=ExtResource( 1 )]
 margin_left = 855.0
@@ -62,6 +70,7 @@ margin_right = 1278.0
 margin_bottom = 60.0
 parameter = "avoid_distance"
 initial_value = 15
+min_value = 1
 max_value = 100
 
 [node name="MinSpeed" parent="Sliders" instance=ExtResource( 1 )]
