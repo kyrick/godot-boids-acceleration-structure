@@ -3,26 +3,29 @@ extends Node2D
 const AccelStruct = preload("res://Nodes/AccelStruct/AccelStructure.gd")
 
 export(int) var max_boids = 20
-export(PackedScene) var Boid
-export(int) var struct_scale = 10 
+export(PackedScene) var Boid 
 export(int) var compute_groups = 4
 
 onready var screen_size: = get_viewport_rect().size
 onready var scaled_points = range(max_boids)
 
-var _accel_struct: AccelStruct
+var accel_struct: AccelStruct
 var boids = []
 
 
 func _ready():
+	var initial_boid_values = $ControlsUI.get_current_values()
+	
 	# initialize the boids
 	for _i in max_boids:
 		randomize()
 		var boid = Boid.instance()
 		var init_pos: = Vector2(rand_range(0, screen_size.x), rand_range(0, screen_size.y))
 		boid.position = init_pos
+		boid.add_to_group("boids")
+		boid.set_values(initial_boid_values)
 		boids.append(boid)
-		add_child(boid)
+		$Boids.add_child(boid)
 
 
 func _process(delta):
@@ -30,21 +33,27 @@ func _process(delta):
 	build_struct()
 	# update each boid with it's respective partition
 	update_boids()
+	
+	$Grid.struct_scale = accel_struct._scale
+	$Grid.struct_size = accel_struct.size
+	
 	# move the boids
 	process_boids(delta)
 
 
 func build_struct():
-	_accel_struct = AccelStruct.new(screen_size, struct_scale)
+	# set struct scale to a size that will (mostly) fit the view radius
+	var struct_scale = floor(boids[0].view_distance / 2)
+	accel_struct = AccelStruct.new(screen_size, struct_scale)
 	for i in boids.size():
-		var scaled_point = _accel_struct.scale_point(boids[i].position)
-		_accel_struct.add_body(boids[i], scaled_point)
+		var scaled_point = accel_struct.scale_point(boids[i].position)
+		accel_struct.add_body(boids[i], scaled_point)
 		scaled_points[i] = scaled_point
 
 
 func update_boids():
 	for i in boids.size():
-		boids[i].flock = _accel_struct.get_bodies(scaled_points[i])
+		boids[i].flock = accel_struct.get_bodies(scaled_points[i])
 
 
 func process_boids(delta):
@@ -64,3 +73,9 @@ func process_group(data):
 		end += boids.size() % compute_groups
 	for i in range(start, end):
 		boids[i].process(data.delta)
+		
+func _unhandled_input(event: InputEvent):
+	if event.is_action_released('toggle_controls'):
+		$ControlsUI.visible = not $ControlsUI.visible
+	elif event.is_action_released('exit'):
+		get_tree().quit()
