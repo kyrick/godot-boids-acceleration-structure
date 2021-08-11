@@ -12,9 +12,9 @@ export(int) var max_flock_size: = 15
 
 onready var screen_size = get_viewport_rect().size
 
-var _mouse_target: Vector2
+var _target: Vector2
 var velocity: Vector2
-var mouse_follow = false
+var target_follow = false
 
 # a 2D array of "cells"
 var flock = []
@@ -24,18 +24,6 @@ var flock_size: int = 0
 func _ready():
 	randomize()
 	velocity = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized() * max_speed
-	_mouse_target = get_random_target()
-
-
-func _input(event):
-	# disable for now
-	return
-	if event is InputEventMouseButton:
-		if event.get_button_index() == BUTTON_LEFT:
-			mouse_follow = true
-			_mouse_target = event.position
-		elif event.get_button_index() == BUTTON_RIGHT:
-			mouse_follow = false
 
 
 func process(delta):
@@ -52,8 +40,8 @@ func process(delta):
 	flock_size = vectors[3]
 
 	var acceleration = align_vector + cohesion_vector + separation_vector
-	if mouse_follow:
-		var mouse_vector = global_position.direction_to(_mouse_target) * target_force
+	if target_follow:
+		var mouse_vector = global_position.direction_to(_target) * target_force
 		acceleration += mouse_vector
 	
 	velocity = (velocity + acceleration).clamped(max_speed)
@@ -113,6 +101,12 @@ func set_values(params: Dictionary):
 	for param in params.keys():
 		set(param, params[param])
 
+func set_target(target_position: Vector2):
+	_target = target_position
+	target_follow = true
+
+func clear_target():
+	target_follow = false
 
 func set_max_speed(value: float):
 	max_speed = value

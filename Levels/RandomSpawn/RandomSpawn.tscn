@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Actors/Crow/Crow.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Actors/MarkerFlag/MarkerFlag.tscn" type="PackedScene" id=3]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Levels/RandomSpawn/Grid.gd" type="Script" id=5]
 [ext_resource path="res://Nodes/UI/ControlsUI/ControlsUI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Levels/common/black_tile.png" type="Texture" id=7]
+[ext_resource path="res://Levels/RandomSpawn/Container.gd" type="Script" id=8]
 
 [node name="RandomChickens" type="Node2D"]
 script = ExtResource( 4 )
@@ -26,9 +27,25 @@ __meta__ = {
 visible = false
 script = ExtResource( 5 )
 
-[node name="Flag" parent="." instance=ExtResource( 3 )]
+[node name="Container" type="Container" parent="."]
+margin_right = 1919.0
+margin_bottom = 1083.0
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Flag" parent="Container" instance=ExtResource( 3 )]
 position = Vector2( 514.017, 517.564 )
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="ControlsUI" parent="." instance=ExtResource( 6 )]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1008.0
 
 [node name="Boids" type="Node2D" parent="."]
 
-[node name="ControlsUI" parent="." instance=ExtResource( 6 )]
+[connection signal="gui_input" from="Container" to="Container" method="_on_Container_gui_input"]
