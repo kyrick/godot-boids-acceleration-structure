@@ -12,6 +12,7 @@ export(int) var max_flock_size: = 15
 
 onready var screen_size = get_viewport_rect().size
 
+
 var _target: Vector2
 var velocity: Vector2
 var target_follow = false
@@ -25,6 +26,10 @@ func _ready():
 	randomize()
 	velocity = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized() * max_speed
 
+
+func _process(delta):
+	#update()
+	pass
 
 func process(delta):
 	position += velocity * delta

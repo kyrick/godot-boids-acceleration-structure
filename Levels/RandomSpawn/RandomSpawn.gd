@@ -73,9 +73,11 @@ func process_group(data):
 		end += boids.size() % compute_groups
 	for i in range(start, end):
 		boids[i].process(data.delta)
-		
+
 func _unhandled_input(event: InputEvent):
 	if event.is_action_released('toggle_controls'):
 		$ControlsUI.visible = not $ControlsUI.visible
 	elif event.is_action_released('exit'):
 		get_tree().quit()
+	elif event.is_action_released('toggle_grid'):
+		$Grid.visible = not $Grid.visible

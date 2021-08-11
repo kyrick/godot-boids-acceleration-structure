@@ -5,6 +5,8 @@ var flock_highlight = 0.0
 onready var middle_screen = screen_size / 2
 onready var max_distance = screen_size.distance_to(middle_screen)
 
+var show_view_radius: = false
+
 
 func _process(_delta):
 	look_at(global_position + velocity)
@@ -23,3 +25,8 @@ func _process(_delta):
 #							 0, 
 #							 distance_highlight,
 #							 flock_highlight)
+
+
+func _unhandled_input(event: InputEvent):
+	if event.is_action_released("toggle_view_radius"):
+		$ViewRadius.visible = not $ViewRadius.visible
