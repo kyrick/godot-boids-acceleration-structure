@@ -9,13 +9,15 @@ export(float) var separation: = 5.0
 export(float) var view_distance: = 50.0
 export(float) var avoid_distance: = 15.0
 export(int) var max_flock_size: = 15
+export(float) var screen_avoid_force: = 10.0
 
 onready var screen_size = get_viewport_rect().size
 
 
 var _target: Vector2
 var velocity: Vector2
-var target_follow = false
+var target_follow: = false
+var stay_on_screen: = true
 
 # a 2D array of "cells"
 var flock = []
@@ -33,7 +35,12 @@ func _process(delta):
 
 func process(delta):
 	position += velocity * delta
-	wrap_screen()
+	
+	var screen_avoid_vector = Vector2.ZERO
+	if stay_on_screen:
+		screen_avoid_vector = avoid_screen_edge() * screen_avoid_force
+	else:
+		wrap_screen()
 
 	# get cohesion, alginment, and separation vectors
 	var vectors = get_flock_status()
@@ -44,7 +51,7 @@ func process(delta):
 	var separation_vector = vectors[2] * separation
 	flock_size = vectors[3]
 
-	var acceleration = align_vector + cohesion_vector + separation_vector
+	var acceleration = align_vector + cohesion_vector + separation_vector + screen_avoid_vector
 	if target_follow:
 		var mouse_vector = global_position.direction_to(_target) * target_force
 		acceleration += mouse_vector
@@ -81,6 +88,7 @@ func get_flock_status():
 				if d < avoid_distance:
 					avoid_vector -= other_pos - global_position
 
+
 	if other_count:
 		align_vector /= other_count
 		flock_center /= other_count
@@ -97,6 +105,19 @@ func get_random_target():
 	randomize()
 	return Vector2(rand_range(0, screen_size.x), rand_range(0, screen_size.y))
 
+
+func avoid_screen_edge():
+	var edge_avoid_vector: = Vector2.ZERO
+	if position.x - avoid_distance < 0:
+		edge_avoid_vector.x = 1
+	elif position.x + avoid_distance > screen_size.x:
+		edge_avoid_vector.x = -1
+	if position.y - avoid_distance < 0:
+		edge_avoid_vector.y = 1
+	elif position.y + avoid_distance > screen_size.y:
+		edge_avoid_vector.y = -1
+	
+	return edge_avoid_vector.normalized()
 
 func wrap_screen():
 	position.x = wrapf(position.x, 0, screen_size.x)
