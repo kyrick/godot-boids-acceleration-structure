@@ -14,9 +14,8 @@ export(float) var screen_avoid_force: = 10.0
 onready var screen_size = get_viewport_rect().size
 
 
-var _target: Vector2
+var _targets = []
 var velocity: Vector2
-var target_follow: = false
 var stay_on_screen: = true
 
 # a 2D array of "cells"
@@ -52,9 +51,12 @@ func process(delta):
 	flock_size = vectors[3]
 
 	var acceleration = align_vector + cohesion_vector + separation_vector + screen_avoid_vector
-	if target_follow:
-		var mouse_vector = global_position.direction_to(_target) * target_force
-		acceleration += mouse_vector
+	if _targets:
+		var target_vector = Vector2.ZERO
+		for target in _targets:
+			target_vector += global_position.direction_to(target)
+		target_vector /= _targets.size()
+		acceleration += target_vector * target_force
 	
 	velocity = (velocity + acceleration).clamped(max_speed)
 	if velocity.length() <= min_speed:
@@ -127,12 +129,11 @@ func set_values(params: Dictionary):
 	for param in params.keys():
 		set(param, params[param])
 
-func set_target(target_position: Vector2):
-	_target = target_position
-	target_follow = true
+func add_target(target_position: Vector2):
+	_targets.append(target_position)
 
-func clear_target():
-	target_follow = false
+func clear_targets():
+	_targets.clear()
 
 func set_max_speed(value: float):
 	max_speed = value

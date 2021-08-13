@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Actors/Crow/Crow.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Actors/MarkerFlag/MarkerFlag.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Levels/RandomSpawn/RandomSpawn.gd" type="Script" id=4]
 [ext_resource path="res://Levels/RandomSpawn/Grid.gd" type="Script" id=5]
 [ext_resource path="res://Nodes/UI/ControlsUI/ControlsUI.tscn" type="PackedScene" id=6]
@@ -35,8 +34,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Flag" parent="FlagArea" instance=ExtResource( 3 )]
-position = Vector2( 514.017, 517.564 )
+[node name="Flags" type="Node2D" parent="FlagArea"]
 
 [node name="Boids" type="Node2D" parent="."]
 

@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Actors/MarkerFlag/sprites/circle.png" type="Texture" id=1]
-[ext_resource path="res://Actors/MarkerFlag/MarkerFlag.gd" type="Script" id=2]
 
 [sub_resource type="StreamTexture" id=1]
 flags = 4
@@ -20,7 +19,6 @@ orbit_velocity = 0.1
 orbit_velocity_random = 0.0
 
 [node name="MarkerFlag" type="Node2D"]
-script = ExtResource( 2 )
 
 [node name="Halo" type="Sprite" parent="."]
 self_modulate = Color( 1, 1, 1, 0.0588235 )
