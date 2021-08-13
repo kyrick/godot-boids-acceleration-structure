@@ -9,8 +9,8 @@ For more information on boids see [Craig Reynolds Boids](https://en.wikipedia.or
 Click F5 to run the default scene
 
 Controls: 
-* left click - place target flag
-* right click - delete target.
+* left click - place a target flag
+* right click - clear flags
 * space - toggle controls UI
 * escape - exit
 
