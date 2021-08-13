@@ -27,7 +27,7 @@ __meta__ = {
 visible = false
 script = ExtResource( 5 )
 
-[node name="Container" type="Container" parent="."]
+[node name="FlagArea" type="Container" parent="."]
 margin_right = 1919.0
 margin_bottom = 1083.0
 script = ExtResource( 8 )
@@ -35,10 +35,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Flag" parent="Container" instance=ExtResource( 3 )]
+[node name="Flag" parent="FlagArea" instance=ExtResource( 3 )]
 position = Vector2( 514.017, 517.564 )
 
-[node name="GUI" type="CanvasLayer" parent="."]
+[node name="Boids" type="Node2D" parent="."]
 
 [node name="ControlsUI" parent="." instance=ExtResource( 6 )]
 anchor_top = 1.0
@@ -46,6 +46,4 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 1008.0
 
-[node name="Boids" type="Node2D" parent="."]
-
-[connection signal="gui_input" from="Container" to="Container" method="_on_Container_gui_input"]
+[connection signal="gui_input" from="FlagArea" to="FlagArea" method="_on_Container_gui_input"]
