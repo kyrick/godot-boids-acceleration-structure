@@ -79,9 +79,23 @@ func process_group(data):
 
 
 func reset_boids():
-	for boid in $Boids.get_children():
+	# delete all curent boids
+	for _i in boids.size():
+		var boid = boids.pop_back()
 		boid.queue_free()
-	boids = []
+
+	init_boids()
+
+
+func reset_simulation():
+	# delete all curent boids
+	for _i in boids.size():
+		var boid = boids.pop_back()
+		boid.queue_free()
+
+	# factory reset controls
+	$ControlsUI.reset()
+
 	init_boids()
 
 
@@ -94,3 +108,5 @@ func _unhandled_input(event: InputEvent):
 		$Grid.visible = not $Grid.visible
 	elif event.is_action_released("reset_boids"):
 		call_deferred("reset_boids")
+	elif event.is_action_released("reset_simulation"):
+		call_deferred("reset_simulation")

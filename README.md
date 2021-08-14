@@ -13,8 +13,10 @@ Controls:
 * right click - clear flags
 * space - toggle controls UI
 * escape - exit
-* g - toggle visible grid
-* v - toggle glow effect
+* G - toggle visible grid
+* V - toggle glow effect
+* R - respawn boids
+* Q - reset simulation (factory reset the boids)
 
 # Credits
 
