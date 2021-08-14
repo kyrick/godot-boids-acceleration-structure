@@ -9,10 +9,14 @@ For more information on boids see [Craig Reynolds Boids](https://en.wikipedia.or
 Click F5 to run the default scene
 
 Controls: 
-* left click - place target flag
-* right click - delete target.
+* left click - place a target flag
+* right click - clear flags
 * space - toggle controls UI
 * escape - exit
+* G - toggle visible grid
+* V - toggle glow effect
+* R - respawn boids
+* Q - reset simulation (factory reset the boids)
 
 # Credits
 

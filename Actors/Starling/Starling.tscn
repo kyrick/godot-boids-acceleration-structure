@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Actors/Starling/Starling.gd" type="Script" id=1]
+[ext_resource path="res://Actors/Crow/sprites/arrow3.png" type="Texture" id=2]
+[ext_resource path="res://Actors/Starling/sprites/circle.png" type="Texture" id=3]
+
+[node name="Starling" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Glow" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0.00784314 )
+position = Vector2( -1.52588e-05, -1.52588e-05 )
+scale = Vector2( 0.192159, 0.192159 )
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 1.61354, 2.23908e-13 )
+rotation = 1.5708
+scale = Vector2( 0.4, 0.4 )
+texture = ExtResource( 2 )

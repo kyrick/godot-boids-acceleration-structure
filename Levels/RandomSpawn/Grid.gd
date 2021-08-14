@@ -17,4 +17,5 @@ func _draw():
 			draw_line(start, end, Color.blue)
 
 func _process(_delta):
-	update()
+	if visible:
+		update()

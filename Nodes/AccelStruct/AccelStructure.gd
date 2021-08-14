@@ -22,7 +22,10 @@ func _scale_axis(point: float) -> int:
 
 
 func scale_point(vector: Vector2) -> Vector2:
-	return(vector / _scale).floor()
+	var scaled_point = (vector / _scale).floor()
+	scaled_point.x = min(max(scaled_point.x, 0), size.x)
+	scaled_point.y = min(max(scaled_point.y, 0), size.y)
+	return scaled_point
 
 
 func add_body(body: Node2D, scaled_point: Vector2) -> void:
@@ -30,27 +33,36 @@ func add_body(body: Node2D, scaled_point: Vector2) -> void:
 
 
 func get_bodies(scaled_point: Vector2):
-	var x = scaled_point.x
-	var y = scaled_point.y
+	# keep the points in bounds
+	var x = min(max(scaled_point.x, 0), size.x)
+	var y = min(max(scaled_point.y, 0), size.y)
 	
 	var bodies = [_cells[x][y]]
 	
-	var up = wrapi(y - 1, 0, size.y)
-	var down = wrapi(y + 1, 0, size.y)
-	var left = wrapi(x - 1, 0, size.x)
-	var right = wrapi(x + 1, 0, size.x)
+	var up = y - 1
+	var down = y + 1
+	var left = x - 1
+	var right = x + 1
 
 	# up
-	bodies.append(_cells[x][up])
-	bodies.append(_cells[left][up])
-	bodies.append(_cells[right][up])
+	if up > 0:
+		bodies.append(_cells[x][up])
+		if left > 0:
+			bodies.append(_cells[left][up])
+		if right <= size.x:
+			bodies.append(_cells[right][up])
 	# down
-	bodies.append(_cells[x][down])
-	bodies.append(_cells[left][down])
-	bodies.append(_cells[right][down])
+	if down <= size.y:
+		bodies.append(_cells[x][down])
+		if left > 0:
+			bodies.append(_cells[left][down])
+		if right <= size.x:
+			bodies.append(_cells[right][down])
 	
 	# left and right
-	bodies.append(_cells[left][y])
-	bodies.append(_cells[right][y])
+	if left > 0:
+		bodies.append(_cells[left][y])
+	if right <= size.x:
+		bodies.append(_cells[right][y])
 	
 	return bodies

@@ -23,3 +23,8 @@ func _process(_delta):
 #							 0, 
 #							 distance_highlight,
 #							 flock_highlight)
+
+
+func _unhandled_input(event: InputEvent):
+	if event.is_action_released("toggle_view_radius"):
+		$ViewRadius.visible = not $ViewRadius.visible
