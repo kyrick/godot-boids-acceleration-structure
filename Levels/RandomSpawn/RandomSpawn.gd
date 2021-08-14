@@ -74,6 +74,7 @@ func process_group(data):
 	for i in range(start, end):
 		boids[i].process(data.delta)
 
+
 func _unhandled_input(event: InputEvent):
 	if event.is_action_released('toggle_controls'):
 		$ControlsUI.visible = not $ControlsUI.visible

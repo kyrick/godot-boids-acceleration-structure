@@ -13,6 +13,8 @@ Controls:
 * right click - clear flags
 * space - toggle controls UI
 * escape - exit
+* g - toggle visible grid
+* v - toggle glow effect
 
 # Credits
 
