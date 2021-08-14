@@ -2,12 +2,12 @@ extends Node2D
 
 const AccelStruct = preload("res://Nodes/AccelStruct/AccelStructure.gd")
 
-export(int) var max_boids = 20
+export(int) var starting_boids = 20
 export(PackedScene) var Boid 
 export(int) var compute_groups = 4
 
 onready var screen_size: = get_viewport_rect().size
-onready var scaled_points = range(max_boids)
+onready var scaled_points = range(starting_boids)
 
 var accel_struct: AccelStruct
 var boids = []
@@ -17,7 +17,7 @@ func _ready():
 	var initial_boid_values = $ControlsUI.get_current_values()
 	
 	# initialize the boids
-	for _i in max_boids:
+	for _i in starting_boids:
 		randomize()
 		var boid = Boid.instance()
 		var init_pos: = Vector2(rand_range(0, screen_size.x), rand_range(0, screen_size.y))

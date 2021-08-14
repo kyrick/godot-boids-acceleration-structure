@@ -7,9 +7,9 @@
 [ext_resource path="res://Levels/common/black_tile.png" type="Texture" id=7]
 [ext_resource path="res://Levels/RandomSpawn/Container.gd" type="Script" id=8]
 
-[node name="RandomChickens" type="Node2D"]
+[node name="RandomSpawn" type="Node2D"]
 script = ExtResource( 4 )
-max_boids = 1000
+starting_boids = 1000
 Boid = ExtResource( 2 )
 
 [node name="Background" type="TextureRect" parent="."]
@@ -39,6 +39,7 @@ __meta__ = {
 [node name="Boids" type="Node2D" parent="."]
 
 [node name="ControlsUI" parent="." instance=ExtResource( 6 )]
+visible = false
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
