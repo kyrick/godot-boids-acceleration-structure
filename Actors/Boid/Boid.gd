@@ -28,10 +28,6 @@ func _ready():
 	velocity = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized() * max_speed
 
 
-func _process(delta):
-	#update()
-	pass
-
 func process(delta):
 	position += velocity * delta
 	
@@ -90,11 +86,9 @@ func get_flock_status():
 				if d < avoid_distance:
 					avoid_vector -= other_pos - global_position
 
-
 	if other_count:
 		align_vector /= other_count
 		flock_center /= other_count
-
 		center_vector = global_position.direction_to(flock_center)
 
 	return [center_vector.normalized(),
@@ -121,43 +115,56 @@ func avoid_screen_edge():
 	
 	return edge_avoid_vector.normalized()
 
+
 func wrap_screen():
 	position.x = wrapf(position.x, 0, screen_size.x)
 	position.y = wrapf(position.y, 0, screen_size.y)
+
 
 func set_values(params: Dictionary):
 	for param in params.keys():
 		set(param, params[param])
 
+
 func add_target(target_position: Vector2):
 	_targets.append(target_position)
+
 
 func clear_targets():
 	_targets.clear()
 
+
 func set_max_speed(value: float):
 	max_speed = value
+
 
 func set_min_speed(value:float):
 	min_speed = value
 
+
 func set_target_force(value:float):
 	target_force = value
+
 
 func set_cohesion(value:float):
 	cohesion = value
 
+
 func set_alignment(value:float):
 	alignment = value
+
 
 func set_separation(value:float):
 	separation = value
 
+
 func set_view_distance(value:float):
 	view_distance = value
 
+
 func set_avoid_distance(value:float):
 	avoid_distance = value
+
 
 func set_max_flock_size(value:float):
 	max_flock_size = value
