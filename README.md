@@ -4,6 +4,8 @@ This is my second attempt at boids in godot. I've implemented an acceleration st
 
 For more information on boids see [Craig Reynolds Boids](https://en.wikipedia.org/wiki/Boids). A more detailed breakdown of [Boids with pseudocode can be found here](http://www.kfish.org/boids/pseudocode.html).
 
+![screenshot](screenshot.png)
+
 # Running the Demo
 
 Click F5 to run the default scene
